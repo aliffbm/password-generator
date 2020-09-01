@@ -114,7 +114,6 @@ var upperCasedCharacters = [
  }
 
  function handleChoiceClick() {
-   console.log(this)
    this.classList.toggle('chosen')
  }
 
@@ -128,13 +127,29 @@ button.addEventListener('click', generatePassword)
   let length = document.querySelector('#length').value
 
   let chosen = document.querySelectorAll('.chosen');
-  console.log(chosen)
+  if(chosen.length <= 2) {
+    let pw_display = document.querySelector("#password-display #text");
+    pw_display.textContent = "Must select atleast two symbols"; 
+    setTimeout(function(){
+      pw_display.textContent = "";
+    },2000)
+    return;
+    
+  }
+  if(length.length == 0 || parseInt(length) <= 4) {
+    let pw_display = document.querySelector("#password-display #text");
+    pw_display.textContent = "Character must be greater than length 4"; 
+    setTimeout(function(){
+      pw_display.textContent = "";
+    },2000)
+    return; 
+  }
+  
   let chars = []
   let pw = "";
   let one = false;
   for(let i = 0; i < chosen.length; i++) {
     let ch = chosen[i]
-    console.log(ch.getAttribute('value'))
     let val = ch.getAttribute('value')
     if(val === 'A-Z') {
       pw += upperCasedCharacters[Math.floor(Math.random()*100) % upperCasedCharacters.length]
@@ -159,8 +174,7 @@ button.addEventListener('click', generatePassword)
   for (let i = 0; i < diff; i++) {
     pw += chars[Math.floor(Math.random()*100) % chars.length]
   }
-  console.log(chars)
+
   let pw_display = document.querySelector("#password-display #text");
   pw_display.textContent = pw; 
-  console.log("pw", pw)
  }
